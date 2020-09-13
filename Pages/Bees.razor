@@ -1,0 +1,36 @@
+﻿@page "/bees/{beetitle}"
+@inject HttpClient Http
+@using System.Linq;
+
+@if (mod != null)
+{
+<div style="display: inline-block; width: 100%; height: 100%" class="model">
+  <model-viewer ar autoplay style="width:100%; height: 85%" src="@mod.modelpath" camera-controls></model-viewer>
+  <div class="modeltext"><h1>@mod.title</h1><p>@mod.desc</p></div>
+</div>
+}
+
+@code {
+  [ParameterAttribute]
+  public string beetitle { get; set; }
+  public modeles mod;
+
+
+  protected override async Task OnInitializedAsync()
+  {
+    modeles[] model = await Http.GetFromJsonAsync<modeles[]>("data/models.json");
+    IEnumerable<modeles> _models = model.Where(x => x.title.Equals(beetitle));
+    mod = _models.First();
+  }
+
+  public class modeles
+  {
+    public DateTime data { get; set; }
+
+    public string title { get; set; }
+
+    public string modelpath { get; set; }
+
+    public string desc { get; set; }
+  }
+}

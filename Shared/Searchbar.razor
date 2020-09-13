@@ -1,0 +1,36 @@
+﻿@inject NavigationManager Nav
+@inject HttpClient Http
+
+<div>
+  <form @onsubmit="submit">
+    <input placeholder="Search " @bind="text" type="text" autocomplete="on" />
+    <input type="submit" />
+  </form>
+</div>
+
+@code {
+  string text { get; set; }
+  void submit()
+  {
+    Nav.NavigateTo($"/search/{text}/");
+  }
+
+
+  private modeles[] models;
+
+  protected override async Task OnInitializedAsync()
+  {
+    models = await Http.GetFromJsonAsync<modeles[]>("data/models.json");
+  }
+
+  public class modeles
+  {
+    public DateTime data { get; set; }
+
+    public string title { get; set; }
+
+    public string modelpath { get; set; }
+
+    public string desc { get; set; }
+  }
+}
