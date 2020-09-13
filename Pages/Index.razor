@@ -21,7 +21,7 @@ else
 ">
     @foreach (modeles mod in models)
     {
-      <a href="/bees/@mod.title">
+      <a style="margin-right: 1vw" href="/bees/@mod.title">
         <div style="display: inline-block;" class="model">
           <model-viewer src="@mod.modelpath" camera-controls></model-viewer>
           <div class="modeltext"><h1>@mod.title</h1><p>@mod.desc</p></div>
