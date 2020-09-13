@@ -7,15 +7,16 @@
 @using System.Linq;
 
 <div style="overflow-y:auto;">
-@if (_models != null)
-{
-@foreach(modeles mod in _models){
-<div style="display: inline-block; width: 100%; height: 20%" class="model">
-  <model-viewer ar autoplay style="width:100%; height: 75%" src="@mod.modelpath" camera-controls></model-viewer>
-  <div class="modeltext"><h1>@mod.title</h1><p>@mod.desc</p></div>
-</div>
-}
-}
+  @if (_models != null)
+  {
+    @foreach (modeles mod in _models)
+    {
+      <div style="display: inline-block; width: 100%; height: 20%" class="model">
+        <model-viewer ar autoplay style="width:100%; height: 75%" src="@mod.modelpath" camera-controls></model-viewer>
+        <div class="modeltext"><h1>@mod.title</h1><p>@mod.desc</p></div>
+      </div>
+    }
+  }
 </div>
 
 @code {

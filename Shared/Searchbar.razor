@@ -2,27 +2,27 @@
 @inject HttpClient Http
 
 <div>
-<BlazoredTypeahead SearchMethod="Searchmodels"
-                   @bind-Value="Selectedmod">
+  <BlazoredTypeahead SearchMethod="Searchmodels"
+                     @bind-Value="Selectedmod">
     <SelectedTemplate>
-        @context.title
+      @context.title
     </SelectedTemplate>
     <ResultTemplate>
-        <h3>@context.title</h3> @TruncateForDisplay(context.desc, 10)
+      <h3>@context.title</h3> @TruncateForDisplay(context.desc, 10)
     </ResultTemplate>
-</BlazoredTypeahead>
+  </BlazoredTypeahead>
 </div>
 
 @code {
-    modeles _Selectedmod;
-  modeles Selectedmod { get{return _Selectedmod;}set{Nav.NavigateTo($"/bees/{value.title}/"); _Selectedmod = value;}}
+  modeles _Selectedmod;
+  modeles Selectedmod { get { return _Selectedmod; } set { Nav.NavigateTo($"/bees/{value.title}/"); _Selectedmod = value; } }
 
   List<modeles> models = new List<modeles>();
 
-    private async Task<IEnumerable<modeles>> Searchmodels(string searchText)
-    {
-        return await Task.FromResult(models.Where(x => x.title.ToLower().Contains(searchText.ToLower()) || x.desc.ToLower().Contains(searchText.ToLower())).ToList());
-    }
+  private async Task<IEnumerable<modeles>> Searchmodels(string searchText)
+  {
+    return await Task.FromResult(models.Where(x => x.title.ToLower().Contains(searchText.ToLower()) || x.desc.ToLower().Contains(searchText.ToLower())).ToList());
+  }
 
 
   protected override async Task OnInitializedAsync()
@@ -43,15 +43,15 @@
   }
 
   private string TruncateForDisplay(string value, int length)
-{
-  if (string.IsNullOrEmpty(value)) return string.Empty;
-  var returnValue = value;
-  if (value.Length > length)
   {
-    var tmp = value.Substring(0, length) ;
-    if (tmp.LastIndexOf(' ') > 0)
-       returnValue = tmp.Substring(0, tmp.LastIndexOf(' ') ) + " ...";
-  }                
-  return returnValue;
-}
+    if (string.IsNullOrEmpty(value)) return string.Empty;
+    var returnValue = value;
+    if (value.Length > length)
+    {
+      var tmp = value.Substring(0, length);
+      if (tmp.LastIndexOf(' ') > 0)
+        returnValue = tmp.Substring(0, tmp.LastIndexOf(' ')) + " ...";
+    }
+    return returnValue;
+  }
 }

@@ -1,52 +1,52 @@
 @page "/"
 @inject HttpClient Http
 
-  <div>
-    <h1>BEE VIEWER</h1>
-    <website2.Shared.Searchbar></website2.Shared.Searchbar>
-  </div>
+<div>
+  <h1>BEE VIEWER</h1>
+  <website2.Shared.Searchbar></website2.Shared.Searchbar>
+</div>
 
-  @if (models == null)
-  {
-    <p><em>Loading...</em></p>
-  }
-  else
-  {
-    <div style="    position: center;
+@if (models == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <div style="    position: center;
     height: auto;
     overflow-x: auto;
     overflow-y: hidden;
     display: inline-block;
     white-space: nowrap;
 ">
-      @foreach (modeles mod in models)
-      {
+    @foreach (modeles mod in models)
+    {
       <a href="/bees/@mod.title">
         <div style="display: inline-block;" class="model">
           <model-viewer src="@mod.modelpath" camera-controls></model-viewer>
           <div class="modeltext"><h1>@mod.title</h1><p>@mod.desc</p></div>
         </div>
       </a>
-      }
-    </div>
+    }
+  </div>
+}
+
+@code {
+  private modeles[] models;
+
+  protected override async Task OnInitializedAsync()
+  {
+    models = await Http.GetFromJsonAsync<modeles[]>("data/models.json");
   }
 
-  @code {
-    private modeles[] models;
+  public class modeles
+  {
+    public DateTime data { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-      models = await Http.GetFromJsonAsync<modeles[]>("data/models.json");
-    }
+    public string title { get; set; }
 
-    public class modeles
-    {
-      public DateTime data { get; set; }
+    public string modelpath { get; set; }
 
-      public string title { get; set; }
-
-      public string modelpath { get; set; }
-
-      public string desc { get; set; }
-    }
+    public string desc { get; set; }
   }
+}
