@@ -1,18 +1,32 @@
-﻿@page "/search/{query}"
+@page "/search/{query}"
 @inject HttpClient Http
 
+<website2.Shared.Searchbar></website2.Shared.Searchbar>
 
+
+@using System.Linq;
+
+<div style="overflow-y:auto;">
+@if (_models != null)
+{
+@foreach(modeles mod in _models){
+<div style="display: inline-block; width: 100%; height: 20%" class="model">
+  <model-viewer ar autoplay style="width:100%; height: 75%" src="@mod.modelpath" camera-controls></model-viewer>
+  <div class="modeltext"><h1>@mod.title</h1><p>@mod.desc</p></div>
+</div>
+}
+}
+</div>
 
 @code {
   [ParameterAttribute]
   public string query { get; set; }
-
-
-  private modeles[] models;
+  IEnumerable<modeles> _models;
 
   protected override async Task OnInitializedAsync()
   {
-    models = await Http.GetFromJsonAsync<modeles[]>("data/models.json");
+    modeles[] model = await Http.GetFromJsonAsync<modeles[]>("data/models.json");
+    _models = model.Where(x => x.title.Contains(query) || x.desc.Contains(query));
   }
 
   public class modeles
